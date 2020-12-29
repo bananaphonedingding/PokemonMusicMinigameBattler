@@ -17,10 +17,14 @@ public class ButtonPressDetector : MonoBehaviour
     public Button runButton;
     public Button pokemonButton;
 
+    public Button cancelButton;
+    public Button tackleButton;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        toggleMenu1Buttons(true);
+        toggleMenu2Buttons(false);
     }
 
     // Update is called once per frame
@@ -31,14 +35,16 @@ public class ButtonPressDetector : MonoBehaviour
 
     public void toggleMenu1Buttons(bool enabled)
     {
-        fightButton.enabled = enabled;
-        bagButton.enabled = enabled;
-        runButton.enabled = enabled;
-        pokemonButton.enabled = enabled;
+        fightButton.gameObject.SetActive(enabled);
+        bagButton.gameObject.SetActive(enabled);
+        runButton.gameObject.SetActive(enabled);
+        pokemonButton.gameObject.SetActive(enabled);
     }
 
     public void toggleMenu2Buttons(bool enabled)
     {
+        cancelButton.gameObject.SetActive(enabled);
+        tackleButton.gameObject.SetActive(enabled);
     }
 
     // Menu 1 buttons
@@ -66,6 +72,31 @@ public class ButtonPressDetector : MonoBehaviour
     {
         Debug.Log("Pokemon button pressed.");
         buttonSoundPlayer.PlayOneShot(buttonRejectSound);
+    }
+    //*******************************************//
+
+    // Menu 2 buttons
+    //*******************************************//
+    public void TackleButtonPressed()
+    {
+        Debug.Log("Tackle button pressed.");
+        menuAnimator.Play("TacklePressing");
+        buttonSoundPlayer.PlayOneShot(buttonPressSound);
+    }
+    public void CancelButtonPressed()
+    {
+        Debug.Log("Cancel button pressed.");
+        menuAnimator.Play("CancelPressing");
+        buttonSoundPlayer.PlayOneShot(buttonPressSound);
+        IEnumerator unhidePikachu = UnhidePikachu(.35f);
+        StartCoroutine(unhidePikachu);
+    }
+    private IEnumerator UnhidePikachu(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        pikachuSprite.GetComponent<SpriteRenderer>().enabled = true;
+        toggleMenu1Buttons(true);
+        toggleMenu2Buttons(false);
     }
     //*******************************************//
 
