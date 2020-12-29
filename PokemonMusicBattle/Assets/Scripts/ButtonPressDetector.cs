@@ -20,17 +20,44 @@ public class ButtonPressDetector : MonoBehaviour
     public Button cancelButton;
     public Button tackleButton;
 
+    public GameObject inputIndicator;
+    private bool inputIndicatorShouldBlink = true;
+    private bool inputIndicatorVisible = true;
+
     // Start is called before the first frame update
     void Start()
     {
         toggleMenu1Buttons(true);
         toggleMenu2Buttons(false);
+        StartCoroutine("InputIndicatorBlinker");
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void enableMenu(int menuNum)
+    {
+        if (menuNum == -1)
+        {
+            toggleMenu1Buttons(false);
+            toggleMenu2Buttons(false);
+            inputIndicatorShouldBlink = false;
+        }
+        else if (menuNum == 1)
+        {
+            toggleMenu1Buttons(true);
+            toggleMenu2Buttons(false);
+            inputIndicatorShouldBlink = true;
+        }
+        else if (menuNum == 2)
+        {
+            toggleMenu1Buttons(false);
+            toggleMenu2Buttons(true);
+            inputIndicatorShouldBlink = true;
+        }
     }
 
     public void toggleMenu1Buttons(bool enabled)
@@ -55,8 +82,7 @@ public class ButtonPressDetector : MonoBehaviour
         menuAnimator.Play("FightPressing");
         buttonSoundPlayer.PlayOneShot(buttonPressSound);
         pikachuSprite.GetComponent<SpriteRenderer>().enabled = false;
-        toggleMenu1Buttons(false);
-        toggleMenu2Buttons(true);
+        enableMenu(2);
     }
     public void BagButtonPressed()
     {
@@ -95,9 +121,25 @@ public class ButtonPressDetector : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         pikachuSprite.GetComponent<SpriteRenderer>().enabled = true;
-        toggleMenu1Buttons(true);
-        toggleMenu2Buttons(false);
+        enableMenu(1);
     }
     //*******************************************//
 
+    public IEnumerator InputIndicatorBlinker()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.75f);
+            if (inputIndicatorShouldBlink)
+            {
+                inputIndicatorVisible = !inputIndicatorVisible;
+                inputIndicator.SetActive(inputIndicatorVisible);
+            }
+            else
+            {
+                inputIndicatorVisible = true;
+                inputIndicator.SetActive(inputIndicatorVisible);
+            }
+        }
+    }
 }

@@ -334,6 +334,7 @@ MonoBehaviour:
   pokemonButton: {fileID: 267703878}
   cancelButton: {fileID: 251503188}
   tackleButton: {fileID: 1625681894}
+  inputIndicator: {fileID: 1634121067}
 --- !u!4 &180111733
 Transform:
   m_ObjectHideFlags: 0
