@@ -24,7 +24,15 @@ public class ButtonPressDetector : MonoBehaviour
     private bool inputIndicatorShouldBlink = true;
     private bool inputIndicatorVisible = true;
 
-    private bool readyForNextAction = false;
+    private const string BATTLE_EVENT_TYPE_DISPLAY_MESSAGE = "BATTLE_EVENT_TYPE_DISPLAY_MESSAGE";
+    private const string BATTLE_EVENT_TYPE_PLAY_ANIMATION = "BATTLE_EVENT_TYPE_PLAY_ANIMATION";
+
+    private struct BattleEvent
+    {
+        string type;
+        string message;
+        string animationName;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +40,7 @@ public class ButtonPressDetector : MonoBehaviour
         toggleMenu1Buttons(true);
         toggleMenu2Buttons(false);
         StartCoroutine("InputIndicatorBlinker");
-
-        readyForNextAction = false;
+        
         IEnumerator initialMessage = DisplayMessage("What will PIKACHU do?");
         StartCoroutine(initialMessage);
     }
@@ -114,7 +121,8 @@ public class ButtonPressDetector : MonoBehaviour
         Debug.Log("Tackle button pressed.");
         menuAnimator.Play("TacklePressing");
         buttonSoundPlayer.PlayOneShot(buttonPressSound);
-        DisableBattleMenu();
+        IEnumerator tackleMessageDisplay = DisplayMessage("PIKACHU used-Tackle!");
+        StartCoroutine(tackleMessageDisplay);
     }
     public void CancelButtonPressed()
     {
@@ -172,10 +180,11 @@ public class ButtonPressDetector : MonoBehaviour
 
     IEnumerator DisplayMessage(string message)
     {
-        for (int i = 1; i < message.Length + 1; i++)
+        for (int i = 1; i < 50 + 1; i++)
         {
             GameObject.Find("text" + i).GetComponent<SpriteRenderer>().sprite = null;
         }
+        int textPosition = 1;
         for (int i = 1; i < message.Length + 1; i++)
         {
             yield return new WaitForSeconds(.05f);
@@ -184,179 +193,182 @@ public class ButtonPressDetector : MonoBehaviour
             switch (symbol)
             {
                 case 'a':
-                    symbolFileName = "al";//.gif";";
+                    symbolFileName = "al";
                     break;
                 case 'b':
-                    symbolFileName = "bl";//.gif";";
+                    symbolFileName = "bl";
                     break;
                 case 'c':
-                    symbolFileName = "cl";//.gif";";
+                    symbolFileName = "cl";
                     break;
                 case 'd':
-                    symbolFileName = "dl";//.gif";";
+                    symbolFileName = "dl";
                     break;
                 case 'e':
-                    symbolFileName = "el";//.gif";";
+                    symbolFileName = "el";
                     break;
                 case 'f':
-                    symbolFileName = "fl";//.gif";";
+                    symbolFileName = "fl";
                     break;
                 case 'g':
-                    symbolFileName = "gl";//.gif";";
+                    symbolFileName = "gl";
                     break;
                 case 'h':
-                    symbolFileName = "hl";//.gif";";
+                    symbolFileName = "hl";
                     break;
                 case 'i':
-                    symbolFileName = "il";//.gif";";
+                    symbolFileName = "il";
                     break;
                 case 'j':
-                    symbolFileName = "jl";//.gif";";
+                    symbolFileName = "jl";
                     break;
                 case 'k':
-                    symbolFileName = "kl";//.gif";";
+                    symbolFileName = "kl";
                     break;
                 case 'l':
-                    symbolFileName = "ll";//.gif";";
+                    symbolFileName = "ll";
                     break;
                 case 'm':
-                    symbolFileName = "ml";//.gif";";
+                    symbolFileName = "ml";
                     break;
                 case 'n':
-                    symbolFileName = "nl";//.gif";";
+                    symbolFileName = "nl";
                     break;
                 case 'o':
-                    symbolFileName = "ol";//.gif";";
+                    symbolFileName = "ol";
                     break;
                 case 'p':
-                    symbolFileName = "pl";//.gif";";
+                    symbolFileName = "pl";
                     break;
                 case 'q':
-                    symbolFileName = "ql";//.gif";";
+                    symbolFileName = "ql";
                     break;
                 case 'r':
-                    symbolFileName = "rl";//.gif";";
+                    symbolFileName = "rl";
                     break;
                 case 's':
-                    symbolFileName = "sl";//.gif";";
+                    symbolFileName = "sl";
                     break;
                 case 't':
-                    symbolFileName = "tl";//.gif";";
+                    symbolFileName = "tl";
                     break;
                 case 'u':
-                    symbolFileName = "ul";//.gif";";
+                    symbolFileName = "ul";
                     break;
                 case 'v':
-                    symbolFileName = "vl";//.gif";";
+                    symbolFileName = "vl";
                     break;
                 case 'w':
-                    symbolFileName = "wl";//.gif";";
+                    symbolFileName = "wl";
                     break;
                 case 'x':
-                    symbolFileName = "xl";//.gif";";
+                    symbolFileName = "xl";
                     break;
                 case 'y':
-                    symbolFileName = "yl";//.gif";";
+                    symbolFileName = "yl";
                     break;
                 case 'z':
-                    symbolFileName = "zl";//.gif";";
+                    symbolFileName = "zl";
                     break;
                 case 'A':
-                    symbolFileName = "A";//.gif";";
+                    symbolFileName = "A";
                     break;
                 case 'B':
-                    symbolFileName = "B";//.gif";";
+                    symbolFileName = "B";
                     break;
                 case 'C':
-                    symbolFileName = "C";//.gif";";
+                    symbolFileName = "C";
                     break;
                 case 'D':
-                    symbolFileName = "D";//.gif";";
+                    symbolFileName = "D";
                     break;
                 case 'E':
-                    symbolFileName = "E";//.gif";";
+                    symbolFileName = "E";
                     break;
                 case 'F':
-                    symbolFileName = "F";//.gif";";
+                    symbolFileName = "F";
                     break;
                 case 'G':
-                    symbolFileName = "G";//.gif";";
+                    symbolFileName = "G";
                     break;
                 case 'H':
-                    symbolFileName = "H";//.gif";";
+                    symbolFileName = "H";
                     break;
                 case 'I':
-                    symbolFileName = "I";//.gif";";
+                    symbolFileName = "I";
                     break;
                 case 'J':
-                    symbolFileName = "J";//.gif";";
+                    symbolFileName = "J";
                     break;
                 case 'K':
-                    symbolFileName = "K";//.gif";";
+                    symbolFileName = "K";
                     break;
                 case 'L':
-                    symbolFileName = "L";//.gif";";
+                    symbolFileName = "L";
                     break;
                 case 'M':
-                    symbolFileName = "M";//.gif";";
+                    symbolFileName = "M";
                     break;
                 case 'N':
-                    symbolFileName = "N";//.gif";";
+                    symbolFileName = "N";
                     break;
                 case 'O':
-                    symbolFileName = "O";//.gif";";
+                    symbolFileName = "O";
                     break;
                 case 'P':
-                    symbolFileName = "P";//.gif";";
+                    symbolFileName = "P";
                     break;
                 case 'Q':
-                    symbolFileName = "Q";//.gif";";
+                    symbolFileName = "Q";
                     break;
                 case 'R':
-                    symbolFileName = "R";//.gif";";
+                    symbolFileName = "R";
                     break;
                 case 'S':
-                    symbolFileName = "S";//.gif";";
+                    symbolFileName = "S";
                     break;
                 case 'T':
-                    symbolFileName = "T";//.gif";";
+                    symbolFileName = "T";
                     break;
                 case 'U':
-                    symbolFileName = "U";//.gif";";
+                    symbolFileName = "U";
                     break;
                 case 'V':
-                    symbolFileName = "V";//.gif";";
+                    symbolFileName = "V";
                     break;
                 case 'W':
-                    symbolFileName = "W";//.gif";";
+                    symbolFileName = "W";
                     break;
                 case 'X':
-                    symbolFileName = "X";//.gif";";
+                    symbolFileName = "X";
                     break;
                 case 'Y':
-                    symbolFileName = "Y";//.gif";";
+                    symbolFileName = "Y";
                     break;
                 case 'Z':
-                    symbolFileName = "Z";//.gif";";
+                    symbolFileName = "Z";
                     break;
                 case '!':
-                    symbolFileName = "!";//.png";
+                    symbolFileName = "!";
                     break;
                 case '?':
-                    symbolFileName = "questionmark";//.png";
+                    symbolFileName = "questionmark";
                     break;
                 case ' ':
                     symbolFileName = "";
                     break;
+                case '-':
+                    textPosition = 26;
+                    continue;
                 default:
-                    symbolFileName = "!";//.png";
+                    symbolFileName = "!";
                     break;
             }
-            string textSlotName = "text" + i;
+            string textSlotName = "text" + textPosition;
             string symbolFilePath = "font/" + symbolFileName;
             Debug.Log("Setting text slot " + textSlotName + " to symbol path " + symbolFilePath);
             GameObject.Find(textSlotName).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(symbolFilePath);
+            textPosition += 1;
         }
-        readyForNextAction = true;
     }
 }
