@@ -108,6 +108,7 @@ public class ButtonPressDetector : MonoBehaviour
         Debug.Log("Tackle button pressed.");
         menuAnimator.Play("TacklePressing");
         buttonSoundPlayer.PlayOneShot(buttonPressSound);
+        DisableBattleMenu();
     }
     public void CancelButtonPressed()
     {
@@ -129,7 +130,15 @@ public class ButtonPressDetector : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(.75f);
+            if (inputIndicatorVisible)
+            {
+                yield return new WaitForSeconds(.75f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(.25f);
+            }
+            
             if (inputIndicatorShouldBlink)
             {
                 inputIndicatorVisible = !inputIndicatorVisible;
@@ -137,9 +146,21 @@ public class ButtonPressDetector : MonoBehaviour
             }
             else
             {
-                inputIndicatorVisible = true;
+                inputIndicatorVisible = false;
                 inputIndicator.SetActive(inputIndicatorVisible);
             }
         }
+    }
+
+    public void DisableBattleMenu()
+    {
+        menuAnimator.Play("BattleEventsPlaying");
+        enableMenu(-1);
+    }
+
+    public void EnableBattleMenu()
+    {
+        menuAnimator.Play("BattleEventsPlayed");
+        enableMenu(2);
     }
 }
